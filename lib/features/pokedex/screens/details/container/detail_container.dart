@@ -7,26 +7,42 @@ import 'package:pokedex/common/widgets/loading/loading.dart';
 import 'package:pokedex/features/pokedex/screens/details/screens/detail_screen.dart';
 
 class DetailArguments {
-  final Pokemon pokemon;
+  DetailArguments({required this.pokemon, this.index = 0});
 
-  DetailArguments({required this.pokemon});
+  final Pokemon pokemon;
+  final int? index;
 }
 
-class DetailContainer extends StatelessWidget {
-  const DetailContainer(
-      {super.key,
-      required this.repository,
-      required this.arguments,
-      required this.onBack});
+class DetailContainer extends StatefulWidget {
+  const DetailContainer({
+    super.key,
+    required this.repository,
+    required this.arguments,
+    required this.onBack,
+  });
 
   final IPokemonRepository repository;
   final DetailArguments arguments;
   final VoidCallback onBack;
 
   @override
+  State<DetailContainer> createState() => _DetailContainerState();
+}
+
+class _DetailContainerState extends State<DetailContainer> {
+  late PageController controller;
+
+  @override
+  void initState() {
+    controller = PageController(
+        viewportFraction: 2, initialPage: widget.arguments.index!);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Pokemon>>(
-      future: repository.getAllPokemon(),
+      future: widget.repository.getAllPokemon(),
       builder: (context, snapshot) {
         // significa que esta cattegando
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -36,9 +52,10 @@ class DetailContainer extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
           return DetailScreen(
-            pokemon: arguments.pokemon,
+            pokemon: widget.arguments.pokemon,
             list: snapshot.data!,
-            onBack: onBack,
+            onBack: widget.onBack,
+            controller: controller,
           );
         }
 

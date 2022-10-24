@@ -3,10 +3,14 @@ import 'package:pokedex/common/models/pokemon.dart';
 
 class DetailListWidget extends StatelessWidget {
   const DetailListWidget(
-      {super.key, required this.pokemon, required this.list});
+      {super.key,
+      required this.pokemon,
+      required this.list,
+      required this.controller});
 
   final Pokemon pokemon;
   final List<Pokemon> list;
+  final PageController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +55,7 @@ class DetailListWidget extends StatelessWidget {
                 height: 250,
                 width: double.infinity,
                 child: PageView(
+                  controller: controller,
                   children: list
                       .map(
                         (e) => Image.network(

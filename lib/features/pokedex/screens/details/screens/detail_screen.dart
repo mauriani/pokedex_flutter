@@ -9,11 +9,13 @@ class DetailScreen extends StatelessWidget {
     required this.pokemon,
     required this.list,
     required this.onBack,
+    required this.controller,
   });
   final Pokemon pokemon;
 
   final List<Pokemon> list;
   final VoidCallback onBack;
+  final PageController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class DetailScreen extends StatelessWidget {
         DetailListWidget(
           pokemon: pokemon,
           list: list,
+          controller: controller,
         )
       ],
     ));

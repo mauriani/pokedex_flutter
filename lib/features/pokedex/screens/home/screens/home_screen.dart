@@ -38,7 +38,11 @@ class HomeScreen extends StatelessWidget {
             crossAxisSpacing: 16,
             mainAxisSpacing: 12,
             children: list
-                .map((e) => PokemonItemWidget(pokemon: e, onTap: onItemTap))
+                .map((e) => PokemonItemWidget(
+                      pokemon: e,
+                      onTap: onItemTap,
+                      index: list.indexOf(e),
+                    ))
                 .toList(),
           ),
         ));
